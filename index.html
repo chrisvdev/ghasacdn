@@ -12,8 +12,8 @@
   </ul>
   <script>
     const urls = [
-      'https://raw.githubusercontent.com/chrisvdev/ghasacdn/refs/heads/main/badges.json',
-      'https://unpkg.com/mtmi@0.0.19/dist/badges.json',
+      {nombre: 'GH Pages', url: 'https://raw.githubusercontent.com/chrisvdev/ghasacdn/refs/heads/main/badges.json'},
+      {nombre: 'UNPKG', url: 'https://unpkg.com/mtmi@0.0.19/dist/badges.json'},
     ];
 
     const results = [];
@@ -32,11 +32,11 @@
 
     async function runTests() {
       for (const url of urls) {
-        const time = await testDownloadTime(url);
+        const time = await testDownloadTime(url.url);
         if (time !== null) {
           results.push({ url, time });
           const li = document.createElement('li');
-          li.textContent = `${url}: ${time.toFixed(2)} ms`;
+          li.textContent = `${url.nombre}: ${time.toFixed(2)} ms`;
           document.querySelector('ul').appendChild(li);
         }
       }
