@@ -6,7 +6,43 @@
   <title>Document</title>
 </head>
 <body>
-  <h1>HTML Cualquiera</h1>
-  
+  <h1>Prueba de tiempo de descarga entre GH Pages y UNPKG</h1>
+  <h2>Resultados</h2>
+  <ul>
+  </ul>
+  <script>
+    const urls = [
+      'https://unpkg.com/mtmi@0.0.19/dist/badges.json',
+      'https://raw.githubusercontent.com/chrisvdev/ghasacdn/refs/heads/main/badges.json'
+    ];
+
+    const results = [];
+
+    async function testDownloadTime(url) {
+      const startTime = performance.now();
+      try {
+        await fetch(url);
+        const endTime = performance.now();
+        return endTime - startTime;
+      } catch (error) {
+        console.error(`Error fetching ${url}:`, error);
+        return null;
+      }
+    }
+
+    async function runTests() {
+      for (const url of urls) {
+        const time = await testDownloadTime(url);
+        if (time !== null) {
+          results.push({ url, time });
+          const li = document.createElement('li');
+          li.textContent = `${url}: ${time.toFixed(2)} ms`;
+          document.querySelector('ul').appendChild(li);
+        }
+      }
+    }
+
+    runTests();
+  </script>  
 </body>
 </html>
